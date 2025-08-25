@@ -181,4 +181,4 @@ Weekly (Rest of Year)
 
 ---
 
-👉 Do you want me to also generate a **`/docs/diagrams/` folder with separate `.md` files** for each Mermaid workflow (so they can render independently on GitHub Pages), or should everything stay inside a single README.md?
+👉 Do you want me to also generate a **`/docs/diagrams/` folder with separate `.md` files** for each Mermaid workflow (so they can render independently on GitHub Pages), or should everything stay inside a single README.md
