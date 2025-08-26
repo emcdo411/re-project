@@ -218,19 +218,21 @@ gantt
 ```mermaid
 %%{init: {"theme":"dark"}}%%
 flowchart TB
-  classDef lane fill:#0e1b2e,stroke:#5fa8ff,stroke-width:2px,color:#eaf2ff;
   classDef rule fill:#172a46,stroke:#ffb84f,stroke-width:1.6px,color:#ffe8c2;
-  subgraph Legal["Legal/Compliance"]:::lane
+
+  subgraph Legal["Legal/Compliance"]
     L1[TCPA/DNC Scrub]:::rule
     L2[TREC Advertising Rules]:::rule
     L3[Fair Housing Neutral Language]:::rule
   end
-  subgraph DS["Data Science"]:::lane
+
+  subgraph DS["Data Science"]
     D1[Bias Checks<br/>(protected attrs excluded)]:::rule
     D2[Audit Logs & Model Cards]:::rule
     D3[Quarterly Stress Tests]:::rule
   end
-  subgraph Ops["Broker Ops"]:::lane
+
+  subgraph Ops["Broker Ops"]
     O1[Human-in-the-Loop Overrides]:::rule
     O2[Transparent Opt-Out Handling]:::rule
     O3[Letter/Call Templates Versioned]:::rule
@@ -240,6 +242,7 @@ flowchart TB
   D1 --> O1
   D2 --> L2
   D3 --> O3
+
 ```
 
 ---
