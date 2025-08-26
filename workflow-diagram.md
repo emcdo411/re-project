@@ -1,44 +1,33 @@
 # 📊 AI Adoption Workflow Analysis
 
-This README presents a workflow diagram illustrating the **current state of AI adoption in businesses**, the **associated risks**, and **proposed solutions by Level-Field.ai**.  
-
-The diagram shows how current AI usage trends lead to specific risks and how those risks can be mitigated with targeted solutions.
+This README presents a workflow diagram illustrating the **current state of AI adoption**, the **risks**, and **Level-Field.ai solutions**. It shows how current usage trends lead to specific risks and how targeted solutions mitigate them.
 
 ---
 
-## 🗂 Workflow Diagram
-
-Below is a flowchart created with **Mermaid** to visualize the relationship between the current state of AI adoption, business risks, and Level-Field.ai's solutions.
+## 🗂 Workflow Diagram (Mermaid)
 
 ```mermaid
-%%{init:{
-  "theme":"base",
-  "themeVariables":{
-    "primaryColor":"#F2F2F2",
-    "primaryTextColor":"#333333",
-    "primaryBorderColor":"#BFBFBF",
-    "lineColor":"#B3B3B3",
-    "tertiaryColor":"#E6E6E6"
-  }
-}}%%
 flowchart TB
-  %% ---------- LAYOUT ----------
-  %% Columns: Current -> Risks -> Level-Field
-  A0[Current State\n(GA survey)]:::csH
-  B0[Business Risks]:::rkH
-  C0[Level-Field.ai\nSolution]:::solH
+  %% ---------- NODES ----------
+  %% Headers
+  A0[Current State\nGA survey]
+  B0[Business Risks]
+  C0[Level-Field.ai\nSolution]
 
-  A1[68% use AI\nat work]:::cs1
-  A2[51% use\nAI agents]:::cs2
-  A3[Only 17%\ntrained]:::cs2
+  %% Current
+  A1[68% use AI\nat work]
+  A2[51% use\nAI agents]
+  A3[Only 17%\ntrained]
 
-  B1[Compliance gaps\nTCPA, GDPR, Fair Housing]:::rk1
-  B2[Unstructured adoption\nNo roadmap or metrics]:::rk2
-  B3[Missed ROI\nLow conversion, wasted spend]:::rk2
+  %% Risks
+  B1[Compliance gaps\nTCPA, GDPR, Fair Housing]
+  B2[Unstructured adoption\nNo roadmap or metrics]
+  B3[Missed ROI\nLow conversion, wasted spend]
 
-  C1[AI guardrails\nTraining + policies]:::sol1
-  C2[Execution roadmaps\nRight people, right timing]:::sol2
-  C3[Traction dashboards\nInvestor-ready KPIs]:::sol2
+  %% Solutions
+  C1[AI guardrails\nTraining and policies]
+  C2[Execution roadmaps\nRight people and timing]
+  C3[Traction dashboards\nInvestor-ready KPIs]
 
   %% ---------- FLOWS ----------
   A0 --> A1 --> B2
@@ -52,10 +41,10 @@ flowchart TB
   C0 --> C3
 
   %% ---------- LEGEND ----------
-  L0[Legend]:::lgH
-  L1[Current]:::cs1
-  L2[Risks]:::rk1
-  L3[Solutions]:::sol1
+  L0[Legend]
+  L1[Current]
+  L2[Risks]
+  L3[Solutions]
   L0 --- L1 --- L2 --- L3
 
   %% ---------- STYLES ----------
@@ -74,5 +63,42 @@ flowchart TB
 
   classDef lgH fill:#F0F0F0,stroke:#C6C6C6,color:#333,stroke-width:1.2px;
 
+  %% Apply classes (GitHub-safe)
+  class A0,B0,C0 csH;
+  class A1 cs1; class A2,A3 cs2;
+  class B1 rk1; class B2,B3 rk2;
+  class C1 sol1; class C2,C3 sol2;
+  class L0 lgH; class L1 cs1; class L2 rk1; class L3 sol1;
+
+  %% Link style
   linkStyle default stroke:#B3B3B3,stroke-width:1.4px;
+````
+
+---
+
+## 📑 Diagram Overview
+
+* **Current State:** GA survey highlights: 68% use AI, 51% use AI agents, only 17% trained.
+* **Business Risks:** Compliance gaps, unstructured adoption, missed ROI.
+* **Level-Field.ai Solutions:** AI guardrails, execution roadmaps, traction dashboards.
+* **Legend:** Clarifies shading for Current, Risks, Solutions.
+
+---
+
+## 👀 How to View
+
+* Works directly on GitHub (Mermaid enabled) and in VS Code with Mermaid support.
+* For quick edits/tests, use the [Mermaid Live Editor](https://mermaid.live).
+
+---
+
+## 🤝 Contributing
+
+Open an issue or PR with text tweaks, additional nodes, or alternate layouts.
+
+`````
+
+If you still hit errors, double-check that your renderer supports Mermaid and that the code fence begins with exactly ```` ```mermaid ```` (no extra spaces).
+::contentReference[oaicite:0]{index=0}
+`````
 
