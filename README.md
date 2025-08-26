@@ -5,7 +5,7 @@
 ---
 
 ## 📌 Project Overview
-This project provides an **end-to-end AI solution** for real estate brokerages in Texas to **identify and engage homeowners at risk of property tax arrears** *before* county delinquent lists are published.  
+This project provides an **end-to-end AI solution** for real estate brokerages in Texas to **identify and engage homeowners at risk of property tax arrears** *before* county delinquent lists are published.
 
 The system blends:
 - County data ingestion
@@ -20,7 +20,7 @@ The system blends:
 - **Bills issued:** October  
 - **Delinquent:** February 1  
 - **Penalties:** 6% first month + 1% monthly until July; 12% penalty in July + monthly interest  
-- **Final step:** County tax sales, often heavily competitive  
+- **Final step:** County tax sales, often heavily competitive
 
 > ✅ Early outreach positions brokers **ahead of investor-heavy public sale lists**.
 
@@ -34,44 +34,34 @@ The system blends:
 5. **Exclusions:** probate, age/disability exemptions?  
 6. **Outreach rules:** postal, calls (TCPA/DNC scrubbing), bilingual letters?  
 7. **Compliance guardrails:** TREC advertising, fair housing, disclosures?  
-8. What **CRM** should integrate (kvCORE, HubSpot, etc.)?  
+8. What **CRM** should integrate (kvCORE, HubSpot, etc.)?
 
 ---
 
-## 🔄 End-to-End Workflow
+## 🔄 End-to-End Workflow (compat mode)
 
 ```mermaid
-%%{init: {"theme":"dark","themeVariables":{
-"primaryColor":"#0f2035","primaryTextColor":"#eaf2ff","primaryBorderColor":"#5fa8ff",
-"lineColor":"#9fb5ff","tertiaryColor":"#0b1726"}}}%%
-flowchart LR
-  classDef src   fill:#0b2239,stroke:#5fa8ff,stroke-width:2px,color:#eaf2ff;
-  classDef proc  fill:#102a49,stroke:#5fa8ff,stroke-width:2px,color:#eaf2ff;
-  classDef ml    fill:#123a63,stroke:#7ec8ff,stroke-width:2px,color:#eaf2ff;
-  classDef ui    fill:#0b2e4a,stroke:#7ec8ff,stroke-width:2px,color:#eaf2ff;
-  classDef comp  fill:#1f2a3a,stroke:#ffb84f,stroke-width:2px,color:#ffe8c2;
-  classDef store fill:#0a1f33,stroke:#8ad3ff,stroke-width:2px,color:#eaf2ff;
-  linkStyle default stroke:#9fb5ff,stroke-width:1.6px;
+graph LR
+  A[County Sources: CAD, Tax Roll, Sale Lists] --> B[Ingestion and Parsing: CSV, PDF, HTML]
+  B --> C[Normalization and Matching: Address, Owner, APN]
+  C --> D[Feature Engineering: days to Feb 1, prior delinquency, exemptions, value trend]
+  D --> E[Risk Scoring: Pre Arrears, Early, Late]
+  E --> F[Broker App: Queues, Maps, Profiles]
+  F --> G[Compliant Outreach: Mail, Call, permitted Email]
+  G --> H[CRM Sync and Outcomes: Attempt, Connect, Appointment, Listing]
+  H --> I[Feedback Loop: Win Loss, Message effectiveness]
+  I --> D
 
-  subgraph DATALAYER["Data Layer"]
-    A[County Sources\n(CAD, Tax Roll, Sale Lists)]:::src
-    B[Ingestion & Parsing\n(CSV &#124; PDF &#124; HTML)]:::proc
-    C[Normalization & Matching\n(Address, Owner, APN)]:::proc
-  end
-
-  subgraph INTELLIGENCE["Scoring & Intelligence"]
-    D[Feature Engineering\n(days_to_Feb1, prior_delinq,\nexemptions, value_trend)]:::ml
-    E[Risk Scoring\n(Pre-Arrears &#124; Early &#124; Late)]:::ml
-    I[Feedback Loop\n(Win/Loss, Message effectiveness)]:::ml
-  end
-
-  subgraph EXECUTION["Execution & CRM"]
-    F[Broker App\n(Queues, Maps, Profiles)]:::ui
-    G[Compliant Outreach\n(Mail, Call, email-where-permitted)]:::comp
-    H[CRM Sync & Outcomes\n(Attempt, Connect, Appt, Listing)]:::store
-  end
-
-  A --> B --> C --> D --> E --> F --> G --> H --> I --> D
+  %% light styling that GitHub supports
+  style A fill:#0b2239,stroke:#5fa8ff,stroke-width:2px,color:#eaf2ff
+  style B fill:#102a49,stroke:#5fa8ff,stroke-width:2px,color:#eaf2ff
+  style C fill:#102a49,stroke:#5fa8ff,stroke-width:2px,color:#eaf2ff
+  style D fill:#123a63,stroke:#7ec8ff,stroke-width:2px,color:#eaf2ff
+  style E fill:#123a63,stroke:#7ec8ff,stroke-width:2px,color:#eaf2ff
+  style F fill:#0b2e4a,stroke:#7ec8ff,stroke-width:2px,color:#eaf2ff
+  style G fill:#1f2a3a,stroke:#ffb84f,stroke-width:2px,color:#ffe8c2
+  style H fill:#0a1f33,stroke:#8ad3ff,stroke-width:2px,color:#eaf2ff
+  style I fill:#123a63,stroke:#7ec8ff,stroke-width:2px,color:#eaf2ff
 ````
 
 ---
@@ -79,18 +69,17 @@ flowchart LR
 ## 👩‍💻 Broker User Journey
 
 ```mermaid
-%%{init: {"theme":"dark"}}%%
 journey
   title Broker Pre-Arrears Workflow
   section Setup
     Select Counties (Dallas, Tarrant): 4:Broker
     Connect Data Sources (CSV/PDF/HTML): 3:System
-  section Scoring & Queue
-    Normalize & Score Owners: 5:System
+  section Scoring and Queue
+    Normalize and Score Owners: 5:System
     Prioritized Queue by Risk: 4:Broker
   section Outreach
-    Review Owner Card & Talk Track: 5:Broker
-    Generate Letter / Schedule Call (TCPA/DNC): 4:Broker
+    Review Owner Card and Talk Track: 5:Broker
+    Generate Letter or Schedule Call (TCPA/DNC): 4:Broker
   section Results
     Track Outcomes in CRM: 4:Broker
     Next Best Action Recommendation: 5:System
@@ -101,21 +90,20 @@ journey
 ## 🧠 Risk Scoring Logic
 
 ```mermaid
-%%{init: {"theme":"dark"}}%%
 stateDiagram-v2
   [*] --> Candidate
   state "Candidate" as C
-  C --> Screened: APN/Owner match OK
-  C --> [*]: Invalid/No Match
+  C --> Screened: APN or Owner match OK
+  C --> [*]: Invalid or No Match
 
   state "Screened" as S {
     [*] --> Enriched
     Enriched --> Scored
   }
 
-  Scored --> PreArrears: days_to_Feb1 <= 60 & prior_delinq = false
-  Scored --> Early: days_to_Feb1 <= 30 | exemptions flag
-  Scored --> Late: days_to_Feb1 <= 7 | prior_delinq = true
+  Scored --> PreArrears: days_to_Feb1 <= 60 AND prior_delinq == false
+  Scored --> Early: days_to_Feb1 <= 30 OR exemptions_flag == true
+  Scored --> Late: days_to_Feb1 <= 7 OR prior_delinq == true
 
   PreArrears --> QueueA: priority = High
   Early --> QueueB: priority = Medium
@@ -124,7 +112,7 @@ stateDiagram-v2
   QueueA --> Feedback
   QueueB --> Feedback
   QueueC --> Feedback
-  Feedback --> Scored: update(features, labels)
+  Feedback --> Scored: update features and labels
 ```
 
 ---
@@ -165,26 +153,25 @@ stateDiagram-v2
 ## 📅 Delivery Timeline
 
 ```mermaid
-%%{init: {"theme":"dark"}}%%
 gantt
   dateFormat  WW
   title 12-Week Delivery Plan
-  section Phase 1 — Discovery & Compliance
-  Select pilots (Dallas,Tarrant)      :done, p1a, 01, 02
-  Guardrails & metrics                 :active, p1b, 02, 02
-  section Phase 2 — Data & Scoring
-  Connect data & normalize             :p2a, 03, 03
-  Feature engineering & scoring        :p2b, 04, 02
-  section Phase 3 — App & Outreach
-  MVP dashboard & owner card           :p3a, 06, 02
-  CRM sync + DNC scrub                 :p3b, 07, 01
-  Agent training (talk-track/letter)   :p3c, 08, 01
-  section Phase 4 — Pilot & Iterate
-  Sprint 1 + metrics                   :p4a, 09, 01
-  Sprint 2 + adjust thresholds         :p4b, 10, 01
+  section Phase 1 — Discovery and Compliance
+  Select pilots Dallas and Tarrant      :done, p1a, 01, 02
+  Guardrails and metrics                 :active, p1b, 02, 02
+  section Phase 2 — Data and Scoring
+  Connect data and normalize             :p2a, 03, 03
+  Feature engineering and scoring        :p2b, 04, 02
+  section Phase 3 — App and Outreach
+  MVP dashboard and owner card           :p3a, 06, 02
+  CRM sync and DNC scrub                 :p3b, 07, 01
+  Agent training talk track and letter   :p3c, 08, 01
+  section Phase 4 — Pilot and Iterate
+  Sprint 1 and metrics                   :p4a, 09, 01
+  Sprint 2 and adjust thresholds         :p4b, 10, 01
   section Phase 5 — Scale
-  Add Harris + minors                  :p5a, 11, 01
-  Weekly refresh & insights            :p5b, 12, 01
+  Add Harris and minors                  :p5a, 11, 01
+  Weekly refresh and insights            :p5b, 12, 01
 ```
 
 ---
@@ -213,35 +200,43 @@ gantt
 
 ---
 
-## 🛡️ Guardrail Best Practices
+## 🛡️ Guardrail Best Practices (compat mode)
 
 ```mermaid
-%%{init: {"theme":"dark"}}%%
-flowchart TB
-  classDef rule fill:#172a46,stroke:#ffb84f,stroke-width:1.6px,color:#ffe8c2;
-
-  subgraph Legal["Legal/Compliance"]
-    L1[TCPA/DNC Scrub]:::rule
-    L2[TREC Advertising Rules]:::rule
-    L3[Fair Housing Neutral Language]:::rule
+graph TB
+  subgraph Legal
+    L1[TCPA and DNC Scrub]
+    L2[TREC Advertising Rules]
+    L3[Fair Housing Neutral Language]
   end
 
-  subgraph DS["Data Science"]
-    D1[Bias Checks\n(protected attrs excluded)]:::rule
-    D2[Audit Logs & Model Cards]:::rule
-    D3[Quarterly Stress Tests]:::rule
+  subgraph Data_Science
+    D1[Bias Checks exclude protected attributes]
+    D2[Audit Logs and Model Cards]
+    D3[Quarterly Stress Tests]
   end
 
-  subgraph Ops["Broker Ops"]
-    O1[Human-in-the-Loop Overrides]:::rule
-    O2[Transparent Opt-Out Handling]:::rule
-    O3[Letter/Call Templates Versioned]:::rule
+  subgraph Broker_Ops
+    O1[Human in the Loop Overrides]
+    O2[Transparent Opt Out Handling]
+    O3[Letter and Call Templates Versioned]
   end
 
   L1 --> O2
   D1 --> O1
   D2 --> L2
   D3 --> O3
+
+  %% light node styling
+  style L1 fill:#172a46,stroke:#ffb84f,color:#ffe8c2
+  style L2 fill:#172a46,stroke:#ffb84f,color:#ffe8c2
+  style L3 fill:#172a46,stroke:#ffb84f,color:#ffe8c2
+  style D1 fill:#172a46,stroke:#ffb84f,color:#ffe8c2
+  style D2 fill:#172a46,stroke:#ffb84f,color:#ffe8c2
+  style D3 fill:#172a46,stroke:#ffb84f,color:#ffe8c2
+  style O1 fill:#172a46,stroke:#ffb84f,color:#ffe8c2
+  style O2 fill:#172a46,stroke:#ffb84f,color:#ffe8c2
+  style O3 fill:#172a46,stroke:#ffb84f,color:#ffe8c2
 ```
 
 ---
@@ -264,16 +259,13 @@ flowchart TB
 
 ## 📎 License & Credits
 
-* Built with Texas Comptroller & County data (Tarrant, Dallas, Harris).
-* References: Texas Tax Code Ch. 33 (penalties & interest).
+* Built with Texas Comptroller and County data (Tarrant, Dallas, Harris).
+* References: Texas Tax Code Ch. 33 (penalties and interest).
 * License: MIT.
 
 ```
 
----
-
-✅ This version will **render correctly on GitHub** (no `<br/>` parsing errors).  
-
-Do you want me to also generate a `/docs/diagrams/` folder version so each workflow has its **own `.md` file** for GitHub Pages / standalone rendering?
+If anything *still* fails to render, it’s almost always due to the Mermaid version in that renderer. In that case, keep these “compat” blocks and we can tuck fancier versions into `/docs/diagrams/` for GitHub Pages (which tends to be more up to date).
+::contentReference[oaicite:0]{index=0}
 ```
 
